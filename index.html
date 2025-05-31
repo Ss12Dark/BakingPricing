@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>עוזר תמחור</title>
+    <link rel="icon" type="image/x-icon" href="images/pageicon.png">
+    <link rel="stylesheet" href="style/sharedStyle.css">
+    <link rel="stylesheet" href="style/homepage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1><a href="#">עוזר תמחור אישי</a></h1>
+        <div class="button-container">
+            <a href="pages/ingredients.html">מצרכים</a>
+            <a href="pages/recipes.html">מתכונים</a>
+            <a href="pages/case-pricing.html">מארזים</a>
+        </div>
+    </header>
+    <main>
+        <button onclick="exportAllDataToCSV()" class="export-btn fancy-btn">📤 ליצא באקסל</button>
+
+        <input type="file" id="csv-upload" accept=".csv" style="display:none;" />
+        <button onclick="document.getElementById('csv-upload').click()" class="import-btn fancy-btn">📥 ליבא מאקסל</button>
+
+    </main>
+    <footer style="margin: 100px;">
+        made by shon saadon 2025.
+    </footer>
+    <script src="scripts/home.js"></script>
+</body>
+</html>

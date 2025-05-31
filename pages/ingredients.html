@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>עוזר תמחור</title>
+    <link rel="icon" type="image/x-icon" href="../images/pageicon.png">
+    <link rel="stylesheet" href="../style/sharedStyle.css">
+    <link rel="stylesheet" href="../style/ingredients.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1><a href="../index.html">עוזר תמחור אישי</a></h1>
+        <div class="button-container">
+            <a href="#">מצרכים</a>
+            <a href="recipes.html">מתכונים</a>
+            <a href="case-pricing.html">מארזים</a>
+        </div>
+    </header>
+    <main>
+      <div class="form-container">
+        <form id="ingredient-form" class="style-form">
+          <input type="text" id="name" placeholder="שם המצרך" required>
+          <input type="number" id="amount" placeholder="כמות (בגרם / יחידות)" required>
+          <input type="number" step="0.01" id="price" placeholder="מחיר" required>
+          <button type="submit">הוספת מצרך</button>
+        </form>
+      </div>
+      <section class="my-grid">
+        <table>
+          <thead>
+            <tr>
+              <th>שם</th>
+              <th>כמות (בגרם / יחידות)</th>
+              <th>מחיר</th>
+              <th style="text-align:center;">פעולה</th>
+            </tr>
+          </thead>
+          <tbody id="ingredient-table-body">
+            <!-- Ingredients will be added here -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+    <footer>
+        made by shon saadon 2025.
+    </footer>
+    <script src="../scripts/ingredients.js"></script>
+</body>
+</html>

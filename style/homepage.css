@@ -1,0 +1,25 @@
+button.fancy-btn {
+    background: linear-gradient(145deg, #f7c59f, #f6a192);
+    color: #fff;
+    padding: 12px 24px;
+    margin: 8px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  button.fancy-btn:hover {
+    background: linear-gradient(145deg, #f6a192, #f7c59f);
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  button.fancy-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  

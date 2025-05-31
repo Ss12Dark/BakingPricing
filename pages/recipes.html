@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>עוזר תמחור</title>
+    <link rel="icon" type="image/x-icon" href="../images/pageicon.png">
+    <link rel="stylesheet" href="../style/sharedStyle.css">
+    <link rel="stylesheet" href="../style/recipes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1><a href="../index.html">עוזר תמחור אישי</a></h1>
+        <div class="button-container">
+            <a href="ingredients.html">מצרכים</a>
+            <a href="#">מתכונים</a>
+            <a href="case-pricing.html">מארזים</a>
+        </div>
+    </header>
+    <main>
+        <div class="form-container">
+            <div id="labor-cost-container"  class="style-form">
+                <form id="labor-cost-form">
+                <input type="number" id="labor-cost" placeholder="שכר לשעה" required>
+                <button type="submit">הגדירי שכר לשעה</button>
+                </form>
+            </div>
+    
+            <form id="recipe-form"  class="style-form">
+                <input type="text" id="recipe-name" placeholder="שם המתכון" required>
+            
+                <div id="ingredient-selection">
+                <!-- Ingredients dropdown and grams input will be added dynamically -->
+                </div>
+            
+                <button type="button" onclick="addIngredientField()">➕ הוספת מצרך</button>
+                <div id="adjust-buttons" style="margin-top: 10px;">
+                    <button type="button" onclick="adjustGrams(2)">×2</button>
+                    <button type="button" onclick="adjustGrams(0.5)">÷2</button>
+                </div>
+            
+                <input type="number" id="recipe-time" placeholder="זמן (בדקות)" required>
+                <button type="submit">הוספת מתכון</button>
+            </form>
+        </div>
+        <section class="my-grid">
+            <table>
+                <thead>
+                <tr>
+                    <th>שם מתכון</th>
+                    <th>מצרכים</th>
+                    <th>זמן הכנה (בדקות)</th>
+                    <th>מחיר מחושב</th>
+                    <th>פעולות</th>
+                </tr>
+                </thead>
+                <tbody id="recipe-table-body">
+                <!-- Recipes will be added here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer>
+        made by shon saadon 2025.
+    </footer>
+    <script src="../scripts/recipes.js"></script>
+</body>
+</html>

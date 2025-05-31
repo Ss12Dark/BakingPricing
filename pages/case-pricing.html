@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>עוזר תמחור</title>
+    <link rel="icon" type="image/x-icon" href="../images/pageicon.png" />
+    <link rel="stylesheet" href="../style/sharedStyle.css" />
+    <link rel="stylesheet" href="../style/case.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <h1><a href="../index.html">עוזר תמחור אישי</a></h1>
+      <div class="button-container">
+        <a href="ingredients.html">מצרכים</a>
+        <a href="recipes.html">מתכונים</a>
+        <a href="#">מארזים</a>
+      </div>
+    </header>
+    <main>
+      <div class="form-container">
+        <form id="case-form" class="style-form">
+          <input type="text" id="case-name" placeholder="שם המארז" required />
+
+          <div id="recipe-selection"></div>
+
+          <button type="button" onclick="addRecipeField()">
+            ➕ הוספת מתכון
+          </button>
+
+          <button type="submit">הוספת מארז</button>
+        </form>
+      </div>
+      <section class="my-grid">
+        <table>
+          <thead>
+            <tr>
+              <th>שם המארז</th>
+              <th>מתכונים</th>
+              <th>סך הכל זמן להכנה</th>
+              <th>מחיר</th>
+              <th>רווח</th>
+              <th>פעולות</th>
+            </tr>
+          </thead>
+          <tbody id="case-table-body"></tbody>
+        </table>
+      </section>
+    </main>
+    <footer>made by shon saadon 2025.</footer>
+    <script src="../scripts/case.js"></script>
+  </body>
+</html>

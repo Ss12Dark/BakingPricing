@@ -1,0 +1,9 @@
+main {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  direction: rtl;
+}
+
+.style-form {
+  max-height: 150px;
+}

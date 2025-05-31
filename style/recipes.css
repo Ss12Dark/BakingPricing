@@ -1,0 +1,14 @@
+main {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  direction: rtl;
+}
+
+.ingredient-row {
+  margin-bottom: 10px;
+}
+
+
+.ingredient-row input {
+  margin-top: 10px;
+}
