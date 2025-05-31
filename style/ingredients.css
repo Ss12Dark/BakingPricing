@@ -7,3 +7,10 @@ main {
 .style-form {
   max-height: 150px;
 }
+
+@media only screen and (max-width: 800px) {
+  main {
+    display: flex;
+    flex-flow: column;
+  }
+}
