@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>הוספת פריט</title>
+    <link rel="stylesheet" href="../style/sharedStyle.css" />
+    <link rel="stylesheet" href="../style/homepage.css" />
+    <style>
+      body {
+        font-family: "Heebo", sans-serif;
+        color: #3e2723;
+        padding: 40px;
+        text-align: center;
+      }
+
+      h1 {
+        margin-bottom: 30px;
+      }
+
+      form {
+        display: inline-block;
+        text-align: right;
+        background: #ffffff;
+        padding: 25px 30px;
+        border-radius: 18px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        width: 320px;
+      }
+
+      label {
+        display: block;
+        margin-top: 12px;
+        font-weight: 500;
+        color: #4e342e;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      input[type="url"] {
+        width: 100%;
+        padding: 8px 10px;
+        margin-top: 6px;
+        border: 1px solid #d7ccc8;
+        border-radius: 8px;
+        outline: none;
+        font-size: 0.95rem;
+      }
+
+      input[type="text"]:focus,
+      input[type="number"]:focus,
+      input[type="url"]:focus {
+        border-color: #d2691e;
+        box-shadow: 0 0 4px rgba(210, 105, 30, 0.3);
+      }
+
+      button {
+        margin-top: 20px;
+        background: #d2691e;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        width: 100%;
+      }
+
+      button:hover {
+        background: #b85c1b;
+      }
+
+      .success {
+        margin-top: 20px;
+        color: #388e3c;
+        font-weight: 500;
+      }
+
+      .error {
+        margin-top: 20px;
+        color: #d32f2f;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><a href="../index.html">עוזר תמחור אישי</a></h1>
+    <header>
+      <div class="button-container">
+        <a target="_blank" href="menu.html">תפריט</a>
+        <a href="add-item.html">הוספת פריט לתפריט</a>
+        <a href="manage-items.html">ניהול תפריט </a>
+      </div>
+    </header>
+    <form id="addItemForm" action="manage-items.html">
+      <label>שם המוצר:</label>
+      <input type="text" id="name" placeholder="לדוגמה: אלפחורס" required />
+
+      <label>תיאור:</label>
+      <input
+        type="text"
+        id="description"
+        placeholder="לדוגמה: עוגיות רכות עם ריבת חלב"
+        required
+      />
+
+      <label>מחיר (₪):</label>
+      <input
+        type="number"
+        id="price"
+        min="1"
+        placeholder="לדוגמה: 12"
+        required
+      />
+
+      <label>קישור לתמונה (URL):</label>
+      <input
+        type="url"
+        id="image"
+        placeholder="https:www.blabla.com/image/something.jpg"
+        required
+      />
+
+      <p>
+        לקבלת קישור לתמונה להשתמש באתר הזה:
+        <a target="_blank" href="https://freeimage.host/"> כאן</a>
+      </p>
+
+      <button type="submit">הוסף למערכת</button>
+
+      <div id="message"></div>
+    </form>
+
+    <!-- Firebase Setup -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        getDocs,
+        setDoc,
+        doc,
+      } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+      // TODO: Replace with your own Firebase config
+      const firebaseConfig = {
+        apiKey: "AIzaSyDv9ZQzX2NFcKKRiFDWFxQYldWncyLlrKk",
+        authDomain: "tafrit-61b4d.firebaseapp.com",
+        projectId: "tafrit-61b4d",
+        storageBucket: "tafrit-61b4d.firebasestorage.app",
+        messagingSenderId: "772333586127",
+        appId: "1:772333586127:web:7f404e28f30e8274c8d9ba",
+        measurementId: "G-ED1Y324PZF",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      let form = document.getElementById("addItemForm");
+      const message = document.getElementById("message");
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const editName = urlParams.get("edit");
+
+      if (editName) {
+        // Load item data from Firestore
+        const snapshot = await getDocs(collection(db, "menuItems"));
+        snapshot.forEach((docItem) => {
+          const item = docItem.data();
+          if (item.name === editName) {
+            document.getElementById("name").value = item.name;
+            document.getElementById("description").value = item.description;
+            document.getElementById("price").value = item.price;
+            // Optional: display current image
+            document.getElementById("image").value = item.image;
+
+            form.addEventListener("submit", async (e) => {
+              e.preventDefault();
+              message.textContent = "";
+
+
+              try {
+                const itemDoc = doc(db, "menuItems", docItem.id);
+                await setDoc(itemDoc, {
+                  name: form.name.value,
+                  description: form.description.value,
+                  price: parseFloat(form.price.value),
+                  image: form.image.value.trim(),
+                });
+                message.textContent = "פריט עודכן בהצלחה!";
+                message.className = "success";
+                form.reset();
+              } catch (error) {
+                console.error("Error adding item:", error);
+                message.textContent = "שגיאה בעריכת הפריט.";
+                message.className = "error";
+              }
+            });
+          }
+        });
+      } else {
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          message.textContent = "";
+
+          const item = {
+            name: form.name.value.trim(),
+            description: form.description.value.trim(),
+            price: parseFloat(form.price.value),
+            image: form.image.value.trim(),
+            createdAt: new Date().toISOString(),
+          };
+
+          try {
+            await addDoc(collection(db, "menuItems"), item);
+            message.textContent = "הפריט נוסף בהצלחה!";
+            message.className = "success";
+            form.reset();
+          } catch (error) {
+            console.error("Error adding item:", error);
+            message.textContent = "שגיאה בהוספת הפריט.";
+            message.className = "error";
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

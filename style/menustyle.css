@@ -1,0 +1,177 @@
+/* General Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Heebo', sans-serif;
+}
+
+/* Page background and header */
+body {
+  background-color: #fffaf6;
+  color: #3e2723;
+  line-height: 1.6;
+  direction: rtl;
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+header {
+  background-color: #f8e8d8;
+  padding: 20px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  font-size: 2rem;
+  color: #4e342e;
+  letter-spacing: 1px;
+}
+
+/* Menu grid */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Each menu item */
+.menu-item {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menu-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.menu-item img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+/* Titles and text */
+.menu-item h2 {
+  font-size: 1.4rem;
+  color: #5d4037;
+  margin-bottom: 8px;
+}
+
+.menu-item p {
+  font-size: 0.95rem;
+  color: #6d4c41;
+  margin-bottom: 10px;
+}
+
+/* Price tag */
+.price {
+  display: block;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #795548;
+  margin-bottom: 10px;
+}
+
+/* Checkbox label */
+label {
+  display: inline-block;
+  background-color: #ffe0b2;
+  color: #4e342e;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  user-select: none;
+}
+
+label:hover {
+  background-color: #ffcc80;
+}
+
+input[type="checkbox"] {
+  accent-color: #d2691e;
+  margin-left: 5px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.6rem;
+  }
+
+  .menu-item {
+    padding: 15px;
+  }
+}
+
+
+/* Floating rounded rectangle for total price */
+.floating-total {
+  --bg: rgba(255, 255, 255, 0.95);
+  --accent: #d2691e;
+  position: fixed;
+  left: 20px;               /* for RTL pages put on the left; change to right:20px if you prefer */
+  bottom: 20px;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  backdrop-filter: blur(6px);
+  background: linear-gradient(180deg, var(--bg), rgba(255,255,255,0.9));
+  border: 1px solid rgba(0,0,0,0.05);
+  font-size: 0.95rem;
+  color: #4e342e;
+  z-index: 9999;
+  direction: rtl; /* keep text right-to-left */
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+/* slight pop on hover */
+.floating-total:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.16);
+}
+
+/* label and total styles */
+.floating-label {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+#cart-total {
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 10px;
+  background: rgba(210,105,30,0.08);
+  color: var(--accent);
+  font-size: 0.95rem;
+  min-width: 48px;
+  text-align: center;
+}
+
+/* Responsive: small screens */
+@media (max-width: 520px) {
+  .floating-total {
+    left: 12px;
+    bottom: 12px;
+    padding: 7px 10px;
+    font-size: 0.85rem;
+    border-radius: 12px;
+  }
+  #cart-total { min-width: 40px; font-size: 0.9rem; }
+}
+

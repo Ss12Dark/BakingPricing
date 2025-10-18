@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ניהול פריטים</title>
+    <link rel="stylesheet" href="../style/sharedStyle.css" />
+    <link rel="stylesheet" href="../style/homepage.css" />
+    <style>
+      body {
+        font-family: "Heebo", sans-serif;
+        color: #3e2723;
+        padding: 40px;
+        text-align: center;
+      }
+      h1 {
+        margin-bottom: 30px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        max-width: 700px;
+        margin: auto;
+      }
+      th,
+      td {
+        border: 1px solid #d7ccc8;
+        padding: 12px;
+        text-align: center;
+      }
+      th {
+        background: #d2691e;
+        color: #fff;
+      }
+      button.remove {
+        background: #d32f2f;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      button.remove:hover {
+        background: #b71c1c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><a href="../index.html">עוזר תמחור אישי</a></h1>
+    <header>
+      <div class="button-container">
+        <a href="menu.html">תפריט</a>
+        <a href="add-item.html">הוספת פריט לתפריט</a>
+        <a target="" href="manage-items.html">ניהול תפריט </a>
+      </div>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <th>שם</th>
+          <th>תיאור</th>
+          <th>מחיר</th>
+          <th>תמונה</th>
+          <th>פעולה</th>
+        </tr>
+      </thead>
+      <tbody id="items-table">
+        <!-- Items will load here -->
+      </tbody>
+    </table>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        deleteDoc,
+        doc,
+      } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDv9ZQzX2NFcKKRiFDWFxQYldWncyLlrKk",
+        authDomain: "tafrit-61b4d.firebaseapp.com",
+        projectId: "tafrit-61b4d",
+        storageBucket: "tafrit-61b4d.appspot.com",
+        messagingSenderId: "772333586127",
+        appId: "1:772333586127:web:7f404e28f30e8274c8d9ba",
+        measurementId: "G-ED1Y324PZF",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      async function loadItems() {
+        const table = document.getElementById("items-table");
+        table.innerHTML = "";
+
+        const snapshot = await getDocs(collection(db, "menuItems"));
+        snapshot.forEach((docItem) => {
+          const item = docItem.data();
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.description}</td>
+          <td>₪${item.price}</td>
+          <td><img src="${item.image}" alt="${item.name}" width="60"></td>
+          <td>
+            <button class="edit">ערוך</button>
+            <button class="remove">הסר</button>
+          </td>
+        `;
+          // Remove button
+          tr.querySelector(".remove").addEventListener("click", async () => {
+            if (confirm(`למחוק את ${item.name}?`)) {
+              await deleteDoc(doc(db, "menuItems", docItem.id));
+              loadItems(); // refresh
+            }
+          });
+
+          tr.querySelector(".edit").addEventListener("click", () => {
+            // Use encodeURIComponent to handle Hebrew characters
+            window.location.href = `add-item.html?edit=${encodeURIComponent(
+              item.name
+            )}`;
+          });
+
+          table.appendChild(tr);
+        });
+      }
+
+      loadItems();
+    </script>
+  </body>
+</html>

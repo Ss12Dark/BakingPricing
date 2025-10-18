@@ -1,0 +1,132 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AtlyaAlfajores</title>
+    <link rel="icon" type="image/x-icon" href="../images/AtlyaLogo.jpg" />
+    <link rel="stylesheet" href="../style/menustyle.css" />
+  </head>
+  <body>
+    <header>
+      <h1>תפריט הזמנות</h1>
+    </header>
+
+    <main class="menu-grid">
+     
+    </main>
+
+    <div class="floating-total" aria-live="polite">
+      <span class="floating-label">סה"כ מחיר:</span>
+      <strong id="cart-total">₪0</strong>
+      <a id="whatsapp-button" href="#" target="_blank">
+        <img src="../images/whatsapp-icon.png" alt="WhatsApp" width="24" />
+      </a>
+    </div>
+
+    <script type="module" defer>
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+      // TODO: Replace with your own Firebase config
+      const firebaseConfig = {
+        apiKey: "AIzaSyDv9ZQzX2NFcKKRiFDWFxQYldWncyLlrKk",
+        authDomain: "tafrit-61b4d.firebaseapp.com",
+        projectId: "tafrit-61b4d",
+        storageBucket: "tafrit-61b4d.firebasestorage.app",
+        messagingSenderId: "772333586127",
+        appId: "1:772333586127:web:7f404e28f30e8274c8d9ba",
+        measurementId: "G-ED1Y324PZF",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      async function loadMenuItems() {
+        let querySnapshot = await getDocs(collection(db, "menuItems"));
+        let grid = document.querySelector(".menu-grid");
+
+        querySnapshot.forEach((doc) => {
+          const item = doc.data();
+          let div = document.createElement("div");
+          div.className = "menu-item";
+          div.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <h2>${item.name}</h2>
+                <p>${item.description}</p>
+                <span class="price">₪${item.price}</span>
+                <label>
+                <input type="checkbox" class="add-to-cart" data-name="${item.name}" data-price="${item.price}">
+                הוסף לעגלה
+                </label>
+            `;
+
+          grid.appendChild(div);
+        });
+      }
+      document.addEventListener("DOMContentLoaded", async () => {
+        await loadMenuItems();
+
+
+        const cart = []; // Array to store items added to cart
+        const cartTotal = document.getElementById("cart-total");
+        const whatsappButton = document.getElementById("whatsapp-button");
+
+        // Example: update cart dynamically
+        function addToCart(item) {
+          cart.push(item);
+          updateCartDisplay();
+        }
+
+        // Update total and WhatsApp link
+        function updateCartDisplay() {
+          const total = cart.reduce((sum, item) => sum + item.price, 0);
+          cartTotal.textContent = `₪${total}`;
+
+          if (cart.length === 0) {
+            whatsappButton.style.display = "none"; // hide if cart empty
+            return;
+          } else {
+            whatsappButton.style.display = "inline-block";
+          }
+
+          let message = "שלום עתליה! אני רוצה להזמין:\n";
+          cart.forEach((i) => {
+            message += `${i.name} - ₪${i.price}\n`;
+          });
+          message += `סה"כ: ₪${total}`;
+
+          const encodedMessage = encodeURIComponent(message);
+          whatsappButton.href = `https://web.whatsapp.com/send?phone=972524242517&text=${encodedMessage}`;
+        }
+
+        // Example: attach checkbox events (if using your menu checkboxes)
+        document.querySelectorAll(".add-to-cart").forEach((cb) => {
+          cb.addEventListener("change", (e) => {
+            const item = {
+              name: cb.dataset.name,
+              price: parseFloat(cb.dataset.price),
+            };
+            if (cb.checked) {
+              addToCart(item);
+            } else {
+              const index = cart.findIndex(
+                (i) => i.name === item.name && i.price === item.price
+              );
+              if (index > -1) cart.splice(index, 1);
+              updateCartDisplay();
+            }
+          });
+        });
+
+        updateCartDisplay();
+      });
+    </script>
+
+    <script src="../scripts/menuscript.js" defer></script>
+  </body>
+</html>
