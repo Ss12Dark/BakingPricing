@@ -54,7 +54,7 @@ header h1 {
 
 .menu-item img {
   width: 100%;
-  height: 180px;
+  height: 155px;
   object-fit: cover;
   border-radius: 12px;
   margin-bottom: 15px;
@@ -175,3 +175,31 @@ input[type="checkbox"] {
   #cart-total { min-width: 40px; font-size: 0.9rem; }
 }
 
+.quantity-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.quantity-control button {
+  background-color: #25d366;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.quantity-control button:hover {
+  background-color: #1ea955;
+}
+
+.quantity-control .quantity {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+}
